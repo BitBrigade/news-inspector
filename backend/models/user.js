@@ -22,8 +22,6 @@ const userSchema = new mongoose.Schema({
       "https://img.icons8.com/parakeet-line/48/FFFFFF/user-male-circle.png",
   },
 
-  newsArticle: { type: [mongoose.Schema.Types.ObjectId], ref: "NewsArticle" },
-
   remember: { type: Boolean },
 
   accessToken: { type: String },

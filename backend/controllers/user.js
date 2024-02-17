@@ -37,16 +37,15 @@ export const updateUser = async (req, res) => {
         email: req.body.email,
         password: req.body.password,
         profilePicture: req.body.profilePicture,
-        newsArticle: req.body.newsArticle,
       },
       { new: true },
-    ).populate("newsArticle");
+    );
 
     const { password, ...user } = updateUser._doc;
 
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: "Internal server error!" });
+    res.status(500).json({ message: error.message });
   }
 };
 
