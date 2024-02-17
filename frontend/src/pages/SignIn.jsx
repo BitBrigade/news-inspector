@@ -36,14 +36,14 @@ const LogIn = () => {
       const res = await axios.post(
         "/api/auth/signin",
         { ...formData, remember: checked },
-        { withCredentials: true },
+        { withCredentials: true }
       );
 
       const data = res.data;
 
       dispatch(signInSuccess(data));
 
-      navigate("/");
+      navigate("/dashboard/create");
     } catch (error) {
       error.message = error.response
         ? error.response.data.message
@@ -84,8 +84,7 @@ const LogIn = () => {
             type="submit"
             onClick={handleSubmit}
             disabled={loading}
-            className="relative rounded-md inline-block py-3 font-medium group"
-          >
+            className="relative rounded-md inline-block py-3 font-medium group">
             <span className="absolute rounded-md inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1.5 translate-y-1.5 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
             <span className="absolute rounded-md inset-0 w-full h-full bg-teal-300 border-2 border-black group-hover:bg-teal-400"></span>
             <span className="relative rounded-md text-black">Sign In</span>

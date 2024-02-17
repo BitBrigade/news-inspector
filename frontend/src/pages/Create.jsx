@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { newsAnalysis } from "../../data";
+import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import axios from "axios";
 
@@ -52,16 +52,16 @@ export default function Create() {
         },
         { withCredentials: true }
       );
-      const id = res.data._id;
-      const res2 = await axios.post(`/api/user/${currentUser._id}`, {
-        newsArticle: currentUser.newsArticle
-          ? { ...currentUser.newsArticle, id }
-          : [id],
-      });
+      console.log(res);
     } catch (error) {
       console.log(error.message);
     }
   }
+
+  const navigate = useNavigate();
+  const handleDiscard = () => {
+    navigate("/dashboard/create");
+  };
 
   return (
     <section className="flex">
@@ -73,7 +73,7 @@ export default function Create() {
             onChange={handleUrl}
             className="border rounded-full w-full border-gray-400 bg-transparent focus:outline-none p-2"
             type="text"
-            placeholder="enter a valid url..."
+            placeholder="enter a valid url to check the nsfw and credibility score."
           />
           {loading ? (
             <div className="flex items-center justify-center gap-2">
@@ -118,10 +118,11 @@ export default function Create() {
           </div>
         </div>
         <div className="flex gap-4 items-center justify-center">
-          <button onClick={createArticle} className="bg-green-500 p-1">
-            Save
+          <button
+            onClick={handleDiscard}
+            className="bg-red-500 px-4 rounded-lg p-1">
+            Reset
           </button>
-          <button className="bg-red-500 p-1">Discard</button>
         </div>
       </main>
     </section>

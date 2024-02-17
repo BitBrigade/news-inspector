@@ -61,28 +61,25 @@ export default function SideBar() {
           </div>
           <div className="btns1 flex gap-2">
             <a href="/dashboard/edituser">
-              <button className="bg-blue-500 w-full p-1 rounded">Edit</button>
+              <button className="bg-blue-500 hover:bg-blue-600 w-full p-1 rounded">
+                Edit
+              </button>
             </a>
             <button
               onClick={handleSignout}
-              className="bg-red-400 w-full p-1 rounded">
+              className="bg-red-400 hover:bg-red-500 w-full p-1 rounded">
               Sign out
             </button>
           </div>
           <div className="btns2 flex flex-col gap-2">
             <a href="/dashboard/create">
-              <button className="bg-indigo-500 w-full p-1 rounded">
+              <button className="bg-indigo-500 hover:bg-indigo-600 w-full p-1 rounded">
                 + Create
-              </button>
-            </a>
-            <a href="/dashboard">
-              <button className="bg-violet-500 w-full p-1 rounded">
-                Your articles
               </button>
             </a>
             <button
               onClick={handleDeleteAccount}
-              className="bg-red-500 self-end w-full p-1 rounded">
+              className="bg-red-500 hover:bg-red-600 self-end w-full p-1 rounded">
               Delete Account
             </button>
           </div>
