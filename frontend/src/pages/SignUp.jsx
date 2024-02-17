@@ -38,7 +38,6 @@ const SignUp = () => {
     <main className="p-2 bg-[#001220] bg-[url('/layered-waves-haikei.svg')] text-gray-50 bg-cover bg-center md:p-0 h-screen flex flex-col md:flex-row md:justify-around justify-center items-center">
       <div className="left drop-shadow-md shadow-gray-300 p-0.5">
         <h1 className="text-4xl font-semibold">News Inspector</h1>
-        <p>tagline...</p>
       </div>
       <div className="form w-full md:w-1/3">
         <form className="flex flex-col gap-2">
@@ -70,8 +69,7 @@ const SignUp = () => {
             type="submit"
             onClick={handleSubmit}
             disabled={loading}
-            className="relative rounded-md inline-block py-3 font-medium group"
-          >
+            className="relative rounded-md inline-block py-3 font-medium group">
             <span className="absolute rounded-md inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1.5 translate-y-1.5 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
             <span className="absolute rounded-md inset-0 w-full h-full bg-teal-300 border-2 border-black group-hover:bg-teal-400"></span>
             <span className="relative rounded-md text-black">Sign Up</span>

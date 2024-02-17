@@ -60,7 +60,6 @@ const LogIn = () => {
     <main className="p-2 bg-[#001220] bg-[url('/layered-waves-haikei.svg')] text-gray-50 bg-cover bg-center md:p-0 h-screen flex flex-col md:flex-row md:justify-around justify-center items-center">
       <div className="left drop-shadow-md shadow-gray-300 p-0.5">
         <h1 className="text-4xl font-semibold">News Inspector</h1>
-        <p>tagline...</p>
       </div>
       <div className="form w-full md:w-1/3">
         <form className="flex flex-col gap-2">
