@@ -21,7 +21,7 @@ export default function Create() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://7e58-65-1-225-4.ngrok-free.app/analyze",
+        "https://4c48-65-1-225-4.ngrok-free.app/analyze",
         { url: url }
       );
       // console.log(res.data);
@@ -104,13 +104,13 @@ export default function Create() {
           )}
           <div className="progress text-sm p-6 w-2/3 grid grid-cols-2 grid-flow-col gap-16">
             <div>
-              <p>Credibility: {prediction}</p>
+              <p>Credibility: {prediction * 100}%</p>
               <progress className="rounded h-6 w-full" value={prediction}>
                 {prediction}
               </progress>
             </div>
             <div>
-              <p>NSFW content: {Math.trunc(100 * nsfw)}</p>
+              <p>NSFW check: {Math.trunc(100 * nsfw)}%</p>
               <progress className="rounded h-6 w-full" value={nsfw}>
                 {nsfw}
               </progress>
