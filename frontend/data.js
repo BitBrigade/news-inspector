@@ -10,3 +10,37 @@ const articles = [
 ];
 
 export default articles;
+
+export const newsAnalysis = {
+  nsfw_classification: [
+    {
+      label: "NSFW",
+      score: 0.8880352973937988,
+    },
+    {
+      label: "SFW",
+      score: 0.11196471750736237,
+    },
+  ],
+
+  prediction: {
+    prediction: 1,
+  },
+
+  sentiment_analysis: [
+    {
+      label: "negative",
+      score: 0.5539623498916626,
+    },
+    {
+      label: "positive",
+      score: 0.4458857774734497,
+    },
+    {
+      label: "neutral",
+      score: 0.00015186854579951614,
+    },
+  ],
+  summary:
+    "Adam, as.keras pocket speech suggests assumption about code is typically typically considered parameters typically dev test enhancing movement trend tends usually requires schedules full-freeware",
+};

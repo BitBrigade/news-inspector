@@ -1,37 +1,90 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import {
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+  signOut,
+} from "../redux/userSlice";
+import axios from "axios";
+
 export default function SideBar() {
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  async function handleSignout() {
+    try {
+      await axios.post(`/api/auth/signout`);
+      dispatch(signOut());
+      navigate("/sign-in");
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async function handleDeleteAccount() {
+    try {
+      dispatch(deleteUserStart());
+      await axios.delete(`/api/user/${currentUser._id}`, {
+        withCredentials: true,
+      });
+      dispatch(deleteUserSuccess());
+      navigate("/sign-up");
+    } catch (error) {
+      error.message = error.response.data
+        ? error.response.data.message
+        : error.response.statusText;
+      dispatch(deleteUserFailure(error.message));
+    }
+  }
+
   return (
-    <main class="flex bg-[#0f0f0f] text-gray-50">
-      <div class="bg-[#001220] flex justify-center items-center shadow font-mono h-screen w-72">
-        <div class="flex flex-col w-full p-3 gap-3">
+    <main className="flex bg-[#0f0f0f] text-gray-50">
+      <div className="bg-[#001220] rounded-r-2xl flex justify-center items-center shadow font-mono h-screen w-72">
+        <div className="flex flex-col w-full p-3 gap-3">
           <img
-            class="cursor-pointer self-center"
-            src="/user-light.svg"
+            src={
+              currentUser.data
+                ? currentUser.data.profilePicture
+                : currentUser.profilePicture
+            }
+            className="cursor-pointer rounded-full  self-center"
             alt="user"
             width={150}
             height={10}
           />
-          <div class="info flex flex-col">
-            <h1>username</h1>
-            <h1>article count: 1</h1>
+
+          <div className="info flex flex-col">
+            <h1 className="text-center">{currentUser.username}</h1>
           </div>
-          <div class="btns1 flex gap-2">
-            <button class="bg-blue-500 w-full p-1 rounded">Edit</button>
-            <button class="bg-red-400 w-full p-1 rounded">Sign out</button>
-          </div>
-          <div class="btns2 flex flex-col gap-2">
-            <a href="/dashboard/create">
-              <button class="bg-indigo-500 w-full p-1 rounded">+ Create</button>
+          <div className="btns1 flex gap-2">
+            <a href="/dashboard/edituser">
+              <button className="bg-blue-500 w-full p-1 rounded">Edit</button>
             </a>
-            <a href="#">
-              <button class="bg-violet-500 w-full p-1 rounded">
+            <button
+              onClick={handleSignout}
+              className="bg-red-400 w-full p-1 rounded">
+              Sign out
+            </button>
+          </div>
+          <div className="btns2 flex flex-col gap-2">
+            <a href="/dashboard/create">
+              <button className="bg-indigo-500 w-full p-1 rounded">
+                + Create
+              </button>
+            </a>
+            <a href="/dashboard">
+              <button className="bg-violet-500 w-full p-1 rounded">
                 Your articles
               </button>
             </a>
-            <a href="#">
-              <button class="bg-red-500 self-end w-full p-1 rounded">
-                Delete Account
-              </button>
-            </a>
+            <button
+              onClick={handleDeleteAccount}
+              className="bg-red-500 self-end w-full p-1 rounded">
+              Delete Account
+            </button>
           </div>
         </div>
       </div>

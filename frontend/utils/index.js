@@ -16,3 +16,9 @@ const response = await axios
 
 console.log(text);
 
+
+export default async function generateNewsArticles() {
+  const res = await axios.post(
+    "https://f213-65-1-225-4.ngrok-free.app/analyze"
+  );
+}

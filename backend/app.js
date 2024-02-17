@@ -25,7 +25,7 @@ app.use(
       "https://news-inspector-82443.firebaseapp.com",
     ],
     credentials: true,
-  }),
+  })
 );
 app.use(cookieParser());
 

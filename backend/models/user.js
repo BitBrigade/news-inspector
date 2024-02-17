@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   profilePicture: {
     type: String,
     default:
-      "https://img.icons8.com/pastel-glyph/64/000000/user-male-circle.png",
+      "https://img.icons8.com/parakeet-line/48/FFFFFF/user-male-circle.png",
   },
 
   newsArticle: { type: [mongoose.Schema.Types.ObjectId], ref: "NewsArticle" },
