@@ -1,17 +1,28 @@
-import { useState } from "react";
-import { app } from "../firebase";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+  updateUserFailure,
+} from "../redux/userSlice";
 import OAuth from "../components/OAuth";
 
 const LogIn = () => {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
 
+  const { loading, error } = useSelector((state) => state.user);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(signInFailure(""));
+  }, [dispatch]);
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -20,16 +31,24 @@ const LogIn = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
+      dispatch(signInStart());
+
       const res = await axios.post(
         "/api/auth/signin",
         { ...formData, remember: checked },
         { withCredentials: true },
       );
 
-      setError(false);
-      navigate("/home");
+      const data = res.data;
+
+      dispatch(signInSuccess(data));
+
+      navigate("/");
     } catch (error) {
-      setError(error.response ? error.response.data.message : error.message);
+      error.message = error.response
+        ? error.response.data.message
+        : error.response.statusText;
+      dispatch(updateUserFailure(error.message));
     }
   }
 
@@ -64,6 +83,7 @@ const LogIn = () => {
           <button
             type="submit"
             onClick={handleSubmit}
+            disabled={loading}
             className="relative rounded-md inline-block py-3 font-medium group"
           >
             <span className="absolute rounded-md inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1.5 translate-y-1.5 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
@@ -82,12 +102,12 @@ const LogIn = () => {
 
         <OAuth />
 
-        <p className="mt-2 text-sm">
-          New here?{" "}
-          <a className="text-blue-600 underline" href="/">
-            Sign Up
-          </a>
-        </p>
+        <div className="flex items-center gap-2 mt-5">
+          <p className="text-sm">New here? </p>
+          <Link to="/sign-up">
+            <p className="text-blue-600 underline">Sign Up</p>
+          </Link>
+        </div>
       </div>
     </main>
   );
