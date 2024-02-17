@@ -37,10 +37,10 @@ export const updateUser = async (req, res) => {
         email: req.body.email,
         password: req.body.password,
         profilePicture: req.body.profilePicture,
-        articles: req.body.articles,
+        newsArticle: req.body.newsArticle,
       },
       { new: true },
-    ).populate("articles");
+    ).populate("newsArticle");
 
     const { password, ...user } = updateUser._doc;
 

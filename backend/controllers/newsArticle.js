@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import Article from "../models/article.js";
+import NewsArticle from "../models/newsArticle.js";
 
-export const createArticle = async (req, res) => {
+export const createNewsArticle = async (req, res) => {
   try {
     const { url, content, result, creator } = req.body;
     const isCreatorValid = mongoose.Types.ObjectId.isValid(creator);
@@ -14,41 +14,41 @@ export const createArticle = async (req, res) => {
       return res.status(400).json({ message: "Invalid creator" });
     }
 
-    const article = new Article({
+    const newsArticle = new NewsArticle({
       url,
       content,
       result,
       creator,
     });
 
-    const createdArticle = await article.save();
+    const createdNewsArticle = await newsArticle.save();
 
-    res.status(200).json(createdArticle);
+    res.status(200).json(createdNewsArticle);
   } catch (error) {
     res.status(500).json({ message: "Internal server error!" });
   }
 };
 
-export const getArticles = async (req, res) => {
+export const getNewsArticle = async (req, res) => {
   try {
-    const articles = await Article.find().populate("creator");
+    const newsArticles = await NewsArticle.find().populate("creator");
 
-    res.status(200).json(articles);
+    res.status(200).json(newsArticles);
   } catch (error) {
     res.status(200).json({ message: "Internal server error!" });
   }
 };
 
-export const deleteArticle = async (req, res) => {
+export const deleteNewsArticle = async (req, res) => {
   try {
-    const articleId = req.params.id;
+    const newsArticleId = req.params.id;
 
-    const result = await Article.findByIdAndDelete(articleId);
+    const result = await NewsArticle.findByIdAndDelete(newsArticleId);
 
     if (result) {
-      res.status(200).json({ message: "Article deleted successfully!" });
+      res.status(200).json({ message: "News Article deleted successfully!" });
     } else {
-      res.status(404).json({ message: "Article not found!" });
+      res.status(404).json({ message: "News Article not found!" });
     }
   } catch (error) {
     res.status(500).json({ message: "Internal server error!" });

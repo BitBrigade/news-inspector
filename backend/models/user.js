@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
       "https://img.icons8.com/pastel-glyph/64/000000/user-male-circle.png",
   },
 
-  articles: { type: [mongoose.Schema.Types.ObjectId], ref: "Article" },
+  news: { type: [mongoose.Schema.Types.ObjectId], ref: "News" },
 
   remember: { type: Boolean },
 
