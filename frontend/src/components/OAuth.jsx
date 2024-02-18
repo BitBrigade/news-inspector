@@ -8,9 +8,8 @@ import axios from "axios";
 import { signInSuccess } from "../redux/userSlice.js";
 
 function OAuth() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   async function handleGoogleClick() {
@@ -29,6 +28,8 @@ function OAuth() {
       const response = await axios.post("/api/auth/google", requestBody);
       const data = response.data;
 
+      dispatch(signInSuccess(data));
+
       navigate("/dashboard/create");
     } catch (error) {
       console.log("Failed to login with Google.", error);
@@ -42,7 +43,8 @@ function OAuth() {
       <button
         type="button"
         onClick={handleGoogleClick}
-        className="w-full flex items-center justify-center p-2 px-4 gap-2 border border-gray-400 rounded-full cursor-pointer hover:shadow-md hover:shadow-gray-700 transition">
+        className="w-full flex items-center justify-center p-2 px-4 gap-2 border border-gray-400 rounded-full cursor-pointer hover:shadow-md hover:shadow-gray-700 transition"
+      >
         {loading ? (
           <div className="flex items-center justify-center gap-4">
             <img

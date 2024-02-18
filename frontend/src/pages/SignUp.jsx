@@ -27,7 +27,7 @@ const SignUp = () => {
       setError(false);
       setLoading(false);
 
-      navigate("/sign-in");
+      navigate("/");
     } catch (error) {
       setLoading(false);
       setError(error.response ? error.response.data.message : error.message);

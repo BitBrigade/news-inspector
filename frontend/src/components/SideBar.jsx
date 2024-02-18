@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
   deleteUserStart,
@@ -18,7 +18,7 @@ export default function SideBar() {
     try {
       await axios.post(`/api/auth/signout`);
       dispatch(signOut());
-      navigate("/sign-in");
+      navigate("/");
     } catch (error) {
       console.log(error.message);
     }
@@ -31,7 +31,7 @@ export default function SideBar() {
         withCredentials: true,
       });
       dispatch(deleteUserSuccess());
-      navigate("/sign-up");
+      navigate("/");
     } catch (error) {
       error.message = error.response.data
         ? error.response.data.message
@@ -67,19 +67,24 @@ export default function SideBar() {
             </a>
             <button
               onClick={handleSignout}
-              className="bg-red-400 hover:bg-red-500 w-full p-1 rounded">
+              className="bg-red-400 hover:bg-red-500 w-full p-1 rounded"
+            >
               Sign out
             </button>
           </div>
           <div className="btns2 flex flex-col gap-2">
-            <a href="/dashboard/create">
-              <button className="bg-indigo-500 hover:bg-indigo-600 w-full p-1 rounded">
-                + Create
-              </button>
-            </a>
+            {location.pathname === "/dashboard" ||
+              (location.pathname === "/dashboard/" && (
+                <a href="/dashboard/create">
+                  <button className="bg-indigo-500 hover:bg-indigo-600 w-full p-1 rounded">
+                    + Create
+                  </button>
+                </a>
+              ))}
             <button
               onClick={handleDeleteAccount}
-              className="bg-red-500 hover:bg-red-600 self-end w-full p-1 rounded">
+              className="bg-red-500 hover:bg-red-600 self-end w-full p-1 rounded"
+            >
               Delete Account
             </button>
           </div>
