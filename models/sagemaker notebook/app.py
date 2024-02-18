@@ -38,7 +38,7 @@ nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
 punctuation = set(string.punctuation)
 
-genai.configure(api_key="AIzaSyDSGfXijXjVZRzS4-3bZByfyWCugNgkZvs")
+genai.configure(api_key="YOUR_API_KEY")
 
 @app.route('/analyze', methods=['POST'])
 def analyze_text():
@@ -48,7 +48,7 @@ def analyze_text():
     # Call the Web Scraping AI API to get the text content
     api_url = 'https://api.webscraping.ai/text'
     params = {
-        'api_key': 'cb40995d-44a6-4e7c-8c14-a338664f2282',
+        'api_key': 'YOUR_API_KEY',
         'url': url,
         'proxy': 'residential',
         'text_format': 'txt'
@@ -70,13 +70,13 @@ def analyze_text():
 
         # Perform analysis using other APIs
         prediction = get_prediction(cleaned_text)
-        nsfw = get_nsfw_classification(summary)
+        hate = get_hate_speech(summary)
 
         # Return the analysis results as JSON
         return jsonify({
             'prediction': prediction,
             'summary':summary,
-            'nsfw_classification': nsfw
+            'hate': hate
         })
     except requests.exceptions.RequestException as e:
         return jsonify({'error': str(e)}), 500
@@ -101,7 +101,7 @@ def generate_summary(text):
     
 def get_prediction(text):
     # API endpoint for text prediction
-    api_url = "https://a1fe-65-1-225-4.ngrok-free.app/predict"
+    api_url = "YOUR_API_KEY"
     try:
         # Prepare JSON data
         data = {"text": text}
@@ -111,14 +111,14 @@ def get_prediction(text):
     except requests.exceptions.RequestException as e:
         return {'error': str(e)}
 
-def get_nsfw_classification(text):
+def get_hate_speech(text):
     # API endpoint for NSFW text classification
-    api_url = "https://api-inference.huggingface.co/models/michellejieli/NSFW_text_classifier"
+    api_url = "YOUR_API_KEY"
     try:
         data = {"text": text}
         response = requests.post(api_url, json=data)
-        nsfw = response.json()
-        return nsfw
+        hate = response.json()
+        return hate
     except requests.exceptions.RequestException as e:
         return {'error': str(e)}
 
@@ -127,7 +127,7 @@ def get_nsfw_classification(text):
 
 
 from pyngrok import ngrok
-ngrok.set_auth_token("2cTnoN4dTb8TTXSmvyyhvBRv24g_CiLJBErRYn4fh2BgCp8W")
+ngrok.set_auth_token("YOUR_API_KEY")
 
 
 # In[35]:
