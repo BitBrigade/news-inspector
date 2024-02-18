@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import axios from "axios";
 
@@ -9,8 +8,8 @@ export default function Create() {
   const [url, setUrl] = useState("");
   const [prediction, setPrediction] = useState(0);
   const [summary, setSummary] = useState("");
-  const [nsfw, setNsfw] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [hate, setHate] = useState([]);
 
   const handleUrl = (e) => {
     setUrl(e.target.value);
@@ -21,13 +20,13 @@ export default function Create() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://4c48-65-1-225-4.ngrok-free.app/analyze",
+        "https://c6b5-65-1-225-4.ngrok-free.app/analyze",
         { url: url }
       );
       // console.log(res.data);
       setSummary(res.data.summary);
       setPrediction(res.data.prediction.prediction);
-      setNsfw(res.data.nsfw_classification[0].score);
+      setHate(res.data.hate);
     } catch (error) {
       console.log(error.message);
     } finally {
@@ -35,33 +34,21 @@ export default function Create() {
     }
   }
 
-  const result = {
-    nsfw,
-    prediction,
-  };
 
-  async function createArticle() {
-    try {
-      const res = await axios.post(
-        "/api/newsArticle",
-        {
-          url,
-          content: summary,
-          result,
-          creator: currentUser._id,
-        },
-        { withCredentials: true }
-      );
-      console.log(res);
-    } catch (error) {
-      console.log(error.message);
+  function getLabelDescription(label) {
+    switch (label) {
+      case "LABEL_0":
+        return "Acceptable";
+      case "LABEL_1":
+        return "Offensive";
+      case "LABEL_2":
+        return "Inappropriate";
+      case "LABEL_3":
+        return "Violent";
+      default:
+        return "";
     }
   }
-
-  const navigate = useNavigate();
-  const handleDiscard = () => {
-    navigate("/dashboard/create");
-  };
 
   return (
     <section className="flex">
@@ -98,31 +85,23 @@ export default function Create() {
             <div className="flex flex-col gap-2 w-2/3 items-center justify-center">
               <h1 className="self-start">Summarised content from the url: </h1>
               <p className="bg-[#333333] rounded px-2 p-1">{summary}</p>
+              <div className="grid grid-cols-2 gap-2">
+                {hate.map((item, index) => (
+                  <div className="flex gap-2 border p-2 rounded" key={index}>
+                    <p>{getLabelDescription(item.label)}:</p>
+                    <p>{Math.trunc(100 * item.score)}%</p>
+                  </div>
+                ))}
+              </div>
+              <p className="border p-2 rounded">
+                {" "}
+                Credibility: {prediction === 1 ? "Reliable" : "Unreliable"}{" "}
+              </p>
             </div>
           ) : (
             ""
           )}
-          <div className="progress text-sm p-6 w-2/3 grid grid-cols-2 grid-flow-col gap-16">
-            <div>
-              <p>Credibility: {prediction * 100}%</p>
-              <progress className="rounded h-6 w-full" value={prediction}>
-                {prediction}
-              </progress>
-            </div>
-            <div>
-              <p>NSFW check: {Math.trunc(100 * nsfw)}%</p>
-              <progress className="rounded h-6 w-full" value={nsfw}>
-                {nsfw}
-              </progress>
-            </div>
-          </div>
-        </div>
-        <div className="flex gap-4 items-center justify-center">
-          <button
-            onClick={handleDiscard}
-            className="bg-red-500 px-4 rounded-lg p-1">
-            Reset
-          </button>
+          <div className="progress text-sm p-6 w-2/3 grid grid-cols-2 grid-flow-col gap-16"></div>
         </div>
       </main>
     </section>
