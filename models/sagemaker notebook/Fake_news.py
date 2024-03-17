@@ -51,7 +51,7 @@ def predict():
 
 
 from pyngrok import ngrok
-ngrok.set_auth_token("2cSje11lPZyvj7YzFoSvXI5aaPg_7d6EBq1L9MDKk8H3gr9ta")
+ngrok.set_auth_token("<API KEY>")
 
 
 # In[7]:
